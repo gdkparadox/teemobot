@@ -9,19 +9,6 @@ const config = require("./config.json");
 const { Kayn, REGIONS } = require('kayn');
 const kayn = Kayn(config.apikey)({region: REGIONS.EUROPE_WEST});
 
-kayn.Summoner.by.name('AyyyyyLmao').callback(function(err, summoner) {
-    kayn.League.Entries.by.summonerID(summoner.id).callback(function(err, rank) {
-        console.log(rank);
-        let result = rank.map(a => a.queueType);
-        var found = rank.find(function (element, index, arr) { 
-            return element === "RANKED_SOLO_5x5"; 
-        }); 
-        console.log(found);
-    })
-})
-
-kayn.League.Entries.by.summonerID()
-
 client.on("ready", () => {
 
   // Ready Message
@@ -61,12 +48,29 @@ client.on("message", async message => {
 
     if (command === "stats") {
 
-        const region = args[0];
-        if (region.toLowerCase === "euw") region = euw1;
-        const summonerName = message.mentions.members.first();
+    const summonerName = args;
+    console.log(summonerName);
 
-        api.get(region, 'summoner.getBySummonerName', summonerName)
-        .then(data => message.channel.send(data.name + "'s summoner id is " + data.id + '.'));
+    kayn.Summoner.by.name(summonerName).callback(function(err, summoner) {
+        kayn.League.Entries.by.summonerID(summoner.id).callback(function(err, sRank) {
+            console.log(sRank);
+            let found = sRank.filter(sRank => sRank.queueType === "RANKED_SOLO_5x5");
+            if (!found[0]){
+              message.channel.send(`Summoner ${summonerName} does not have Solo Queue ranked games or this account doesn't exist`);
+            }
+            let rank = found[0].tier;
+            if (rank == "IRON") {rank = "Iron";}
+            if (rank == "BRONZE") rank = "Bronze";
+            if (rank == "SILVER") rank = "Silver";
+            if (rank == "GOLD") rank = "Gold";
+            if (rank == "PLATINUM") rank = "Platinum";
+            if (rank == "DIAMOND") rank = "Diamond";
+            if (rank == "MASTER") rank = "Master";
+            if (rank == "GRANDMASTER") rank = "Grandmaster";
+            if (rank == "CHALLENGER") rank = "Challenger";
+            message.channel.send(`${summonerName} is ${rank}`);
+        })
+    })
         
     }
 
