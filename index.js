@@ -15,6 +15,7 @@ client.on("ready", () => {
   console.log(`Bot has started, with ${client.users.cache.size} users, in ${client.channels.cache.size} channels of ${client.guilds.cache.size} guilds.`);
 
   client.user.setActivity(`${config.prefix}help`, { type: 'LISTENING' });
+
 });
 
 //Throw error exception into console
@@ -37,39 +38,63 @@ client.on("message", async message => {
     // Check if bot and prefix
     if(message.author.bot) return;
     if(!message.content.startsWith(config.prefix)) return;
+    if(message.channel.type === "dm"){
+      return message.channel.send("Please use the commands in a discord channel");
+    }
 
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
-
-    if (command === "help"){
-
-    }
-
     if (command === "stats") {
 
     const summonerName = args;
-    console.log(summonerName);
 
     kayn.Summoner.by.name(summonerName).callback(function(err, summoner) {
+      if (!summoner){
+        message.channel.send(`${summonerName} does not exist`);
+      }else{
         kayn.League.Entries.by.summonerID(summoner.id).callback(function(err, sRank) {
-            console.log(sRank);
             let found = sRank.filter(sRank => sRank.queueType === "RANKED_SOLO_5x5");
-            if (!found[0]){
-              message.channel.send(`Summoner ${summonerName} does not have Solo Queue ranked games or this account doesn't exist`);
-            }
+            if (found.length < 1){
+              message.channel.send(`Summoner ${summonerName} is currently unranked`);
+            }else{
+            console.log(found);
             let rank = found[0].tier;
-            if (rank == "IRON") {rank = "Iron";}
-            if (rank == "BRONZE") rank = "Bronze";
-            if (rank == "SILVER") rank = "Silver";
-            if (rank == "GOLD") rank = "Gold";
-            if (rank == "PLATINUM") rank = "Platinum";
-            if (rank == "DIAMOND") rank = "Diamond";
-            if (rank == "MASTER") rank = "Master";
-            if (rank == "GRANDMASTER") rank = "Grandmaster";
-            if (rank == "CHALLENGER") rank = "Challenger";
-            message.channel.send(`${summonerName} is ${rank}`);
+            let imagePath = "";
+            let color = "";
+            let division = found[0].rank;
+            let points = found[0].leaguePoints;
+            let wins = found[0].wins;
+            let losses = found[0].losses;
+            var pWinRate = wins/losses;
+            var winRate = pWinRate.toFixed(2);
+
+            // Rank Processing
+            if (rank == "IRON") rank = "Iron", imagePath = "images/Emblem_Iron.png";
+            if (rank == "BRONZE") rank = "Bronze", imagePath = "images/Emblem_Bronze.png";
+            if (rank == "SILVER") rank = "Silver", imagePath = "images/Emblem_Silver.png";
+            if (rank == "GOLD") rank = "Gold", imagePath = "images/Emblem_Gold.png";
+            if (rank == "PLATINUM") rank = "Platinum", imagePath = "images/Emblem_Platinum.png";
+            if (rank == "DIAMOND") rank = "Diamond", imagePath = "images/Emblem_Diamond.png";
+            if (rank == "MASTER") rank = "Master", imagePath = "images/Emblem_Master.png";
+            if (rank == "GRANDMASTER") rank = "Grandmaster", imagePath = "images/Emblem_Grandmaster.png";
+            if (rank == "CHALLENGER") rank = "Challenger", imagePath = "images/Emblem_Challenger.png";
+            console.log(imagePath);
+
+            // Embed
+            const image = new Discord.MessageAttachment(imagePath, 'image');
+
+            const embed = new Discord.MessageEmbed()
+            .setTitle(`${summonerName}'s Stats`)
+            .setThumbnail('attachment://image')
+            .setColor(0xeb7e46)
+            .addField('\u200b', `**${rank} ${division}**\n${points} points`)
+            .addField('\u200b', `**Win Rate:**\n${winRate}%`);
+
+            return message.channel.send({ embed });
+            }
         })
+      }
     })
         
     }
