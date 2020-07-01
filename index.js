@@ -62,6 +62,7 @@ client.on("message", async message => {
           console.log(sRank);
             let soloq = sRank.filter(sRank => sRank.queueType === "RANKED_SOLO_5x5");
             let flexq = sRank.filter(sRank => sRank.queueType === "RANKED_FLEX_SR");
+            console.log(soloq.length, flexq.length);
             if (soloq.length < 1 && flexq.length > 1){
 
               let flexRank = flexq[0].tier;
