@@ -310,6 +310,47 @@ client.on("message", async message => {
           
       }
 
+      if(command === "help"){
+    
+        const embed = new Discord.MessageEmbed()
+        .setTitle('Help Menu')
+        .setDescription('User Command Usage:')
+        .setThumbnail("https://i.imgur.com/ZpB6wXo.jpg")
+        .setColor(0xeb7e46)
+        .addField('\u200b', `**Usage:** \`${config.prefix}nastats [Summoner Name]\`\nThis command displays the stats for summoners in the NA region`)
+        .addField('\u200b', `**Usage:** \`${config.prefix}euwstats [Summoner Name]\`\nThis command displays the stats for summoners in the EUW region`);
+      
+        return message.channel.send({embed});
+    
+      }
+
+      if(command === "about"){
+
+        // Get Memory Usage
+        const memoryUsage = Math.round(process.memoryUsage().heapUsed / 1024 / 1024);
+    
+        //Get Client Uptime
+        var totalSeconds = (client.uptime / 1000);
+        var days = Math.floor(totalSeconds / 86400);
+        var hours = Math.floor(totalSeconds / 3600);
+        totalSeconds %= 3600;
+        var minutes = Math.floor(totalSeconds / 60);
+        var seconds = Math.round(totalSeconds % 60);
+        
+        const embed = new Discord.MessageEmbed()
+        .setTitle('Teemo Bot - Statistics')
+        .setFooter(`©2020 ${config.author}`)
+        .setThumbnail("https://i.imgur.com/iYGaXw3.jpg")
+        .setColor(0xeb7e46)
+        .addField('❯ Uptime', `${days}d ${hours}h ${minutes}m ${seconds}s`)
+        .addField('❯ Memory Usage', `${memoryUsage}MB`)
+        .addField('❯ General Stats', `• Guilds: ${client.guilds.cache.size}\n• Channels: ${client.channels.cache.size}`)
+        .addField('❯ Version', `${config.version}`);
+      
+        return message.channel.send({embed});
+    
+      }
+
 });
 
 client.login(process.env.BOT_TOKEN);
