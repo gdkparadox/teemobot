@@ -157,8 +157,6 @@ client.on("message", async message => {
               if (rank == "CHALLENGER") rank = "Challenger", imagePath = "https://i.imgur.com/C42dBE6.png";
   
               // Embed
-  
-              console.log(rank, division, points, imagePath, summonerName, winRate, flexRank, flexDivision, flexPoints, flexWinRate);
 
               const embed = new Discord.MessageEmbed()
               .setTitle(`${summonerName}'s Stats`)
@@ -182,6 +180,33 @@ client.on("message", async message => {
     }
 
     if (command === "euwstats") {
+
+      // Declaring Methods/Functions
+
+      function mode(array)
+      {
+          if(array.length == 0)
+              return null;
+          var modeMap = {};
+          var maxEl = array[0], maxCount = 1;
+          for(var i = 0; i < array.length; i++)
+          {
+              var el = array[i];
+              if(modeMap[el] == null)
+                  modeMap[el] = 1;
+              else
+                  modeMap[el]++;  
+              if(modeMap[el] > maxCount)
+              {
+                  maxEl = el;
+                  maxCount = modeMap[el];
+              }
+          }
+          return {
+            name: maxEl,
+            count: maxCount
+          };
+      }
 
       const kayn = Kayn(process.env.API_KEY)({region: REGIONS.EUROPE_WEST});
   
@@ -221,13 +246,47 @@ client.on("message", async message => {
                 if (flexRank == "GRANDMASTER") flexRank = "Grandmaster", imagePath = "https://i.imgur.com/dWwxQ2c.png";
                 if (flexRank == "CHALLENGER") flexRank = "Challenger", imagePath = "https://i.imgur.com/C42dBE6.png";
   
+                // Most Played Champion
+
+                const summonerObject = kayn.Summoner.by.name(summonerName);
+                const accountID = (await summonerObject).accountId;
+                kayn.Matchlist.by.accountID(accountID)
+                  .region(REGIONS.EUROPE_WEST)
+                  .query({
+                      season: 13,
+                      queue: 420,
+                  })
+                  .callback(function(err, matchlist) {
+          
+                    var championsPlayed = [];
+          
+                    for (i = 0; i < matchlist.matches.length; i++){
+                      championsPlayed.push(matchlist.matches[i].champion);
+                    }
+          
+                    console.log(championsPlayed);
+          
+                    let championValues = Object.values(champions.data);
+          
+                    var championsNamePlayed = [];
+          
+                    for (a = 0; a < championsPlayed.length; a++){
+                      for(b = 0; b < championValues.length; b++){
+                        if (championValues[b].key == championsPlayed[a]){
+                          championsNamePlayed.push(championValues[b].id);
+                        }
+                      }
+                    }
+                })
+
                 // Embed
   
                 const embed = new Discord.MessageEmbed()
                 .setTitle(`${summonerName}'s Stats`)
                 .setThumbnail(imagePath)
                 .setColor(0xeb7e46)
-                .addField('Flex', `**${flexRank} ${flexDivision} | ${flexPoints} LP**\n**Win Rate:** ${flexWinRate}%`, true);
+                .addField('Flex', `**${flexRank} ${flexDivision} | ${flexPoints} LP**\n**Win Rate:** ${flexWinRate}%`, true)
+                .addField('Most Played Champion', `${championsNamePlayed.name} - ${championsNamePlayed.count} games`, true);
   
                 return message.channel.send({ embed });
   
@@ -253,13 +312,47 @@ client.on("message", async message => {
                 if (rank == "GRANDMASTER") rank = "Grandmaster", imagePath = "https://i.imgur.com/dWwxQ2c.png";
                 if (rank == "CHALLENGER") rank = "Challenger", imagePath = "https://i.imgur.com/C42dBE6.png";
   
+                // Most Played Champion
+
+                const summonerObject = kayn.Summoner.by.name(summonerName);
+                const accountID = (await summonerObject).accountId;
+                kayn.Matchlist.by.accountID(accountID)
+                  .region(REGIONS.EUROPE_WEST)
+                  .query({
+                      season: 13,
+                      queue: 420,
+                  })
+                  .callback(function(err, matchlist) {
+          
+                    var championsPlayed = [];
+          
+                    for (i = 0; i < matchlist.matches.length; i++){
+                      championsPlayed.push(matchlist.matches[i].champion);
+                    }
+          
+                    console.log(championsPlayed);
+          
+                    let championValues = Object.values(champions.data);
+          
+                    var championsNamePlayed = [];
+          
+                    for (a = 0; a < championsPlayed.length; a++){
+                      for(b = 0; b < championValues.length; b++){
+                        if (championValues[b].key == championsPlayed[a]){
+                          championsNamePlayed.push(championValues[b].id);
+                        }
+                      }
+                    }
+                })
+
                 // Embed
   
                 const embed = new Discord.MessageEmbed()
                 .setTitle(`${summonerName}'s Stats`)
                 .setThumbnail(imagePath)
                 .setColor(0xeb7e46)
-                .addField('Solo/Duo', `**${rank} ${division} | ${points} LP**\n**Win Rate:** ${winRate}%`, true);
+                .addField('Solo/Duo', `**${rank} ${division} | ${points} LP**\n**Win Rate:** ${winRate}%`, true)
+                .addField('Most Played Champion', `${championsNamePlayed.name} - ${championsNamePlayed.count} games`, true);
   
                 return message.channel.send({ embed });
   
@@ -292,7 +385,40 @@ client.on("message", async message => {
                 if (rank == "MASTER") rank = "Master", imagePath = "https://i.imgur.com/Kl0C1nw.png";
                 if (rank == "GRANDMASTER") rank = "Grandmaster", imagePath = "https://i.imgur.com/dWwxQ2c.png";
                 if (rank == "CHALLENGER") rank = "Challenger", imagePath = "https://i.imgur.com/C42dBE6.png";
-    
+  
+                // Most Played Champion
+
+                const summonerObject = kayn.Summoner.by.name(summonerName);
+                const accountID = (await summonerObject).accountId;
+                kayn.Matchlist.by.accountID(accountID)
+                  .region(REGIONS.EUROPE_WEST)
+                  .query({
+                      season: 13,
+                      queue: 420,
+                  })
+                  .callback(function(err, matchlist) {
+          
+                    var championsPlayed = [];
+          
+                    for (i = 0; i < matchlist.matches.length; i++){
+                      championsPlayed.push(matchlist.matches[i].champion);
+                    }
+          
+                    console.log(championsPlayed);
+          
+                    let championValues = Object.values(champions.data);
+          
+                    var championsNamePlayed = [];
+          
+                    for (a = 0; a < championsPlayed.length; a++){
+                      for(b = 0; b < championValues.length; b++){
+                        if (championValues[b].key == championsPlayed[a]){
+                          championsNamePlayed.push(championValues[b].id);
+                        }
+                      }
+                    }
+                })
+
                 // Embed
     
                 const embed = new Discord.MessageEmbed()
@@ -301,7 +427,7 @@ client.on("message", async message => {
                 .setColor(0xeb7e46)
                 .addField('Solo/Duo', `**${rank} ${division} | ${points} LP**\n**Win Rate:** ${winRate}%`, true)
                 .addField('Flex', `**${flexRank} ${flexDivision} | ${flexPoints} LP**\n**Win Rate:** ${flexWinRate}%`, true)
-                .addField('Most Played', ``);
+                .addField('Most Played Champion', `${championsNamePlayed.name} - ${championsNamePlayed.count} games`, true);
     
                 return message.channel.send({ embed });
   
