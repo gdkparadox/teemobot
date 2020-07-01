@@ -49,7 +49,7 @@ client.on("message", async message => {
     const kayn = Kayn(process.env.API_KEY)({region: REGIONS.NORTH_AMERICA});
 
     const summonerName = args.join(" ");
-    console.log(summonerName);
+    console.log(`Request made in ${guild.message.name} for ${command} about ${summonerName}`)
 
     if(args.length < 1){
       message.channel.send("You must provide a valid Summoner name");
@@ -60,10 +60,8 @@ client.on("message", async message => {
         message.channel.send(`${summonerName} does not exist`);
       }else{
         kayn.League.Entries.by.summonerID(summoner.id).callback(function(err, sRank) {
-          console.log(sRank);
             let soloq = sRank.filter(sRank => sRank.queueType === "RANKED_SOLO_5x5");
             let flexq = sRank.filter(sRank => sRank.queueType === "RANKED_FLEX_SR");
-            console.log(soloq.length, flexq.length);
             if (soloq.length < 1 && flexq.length > 0){
 
               let flexRank = flexq[0].tier;
@@ -182,7 +180,7 @@ client.on("message", async message => {
       const kayn = Kayn(process.env.API_KEY)({region: REGIONS.EUROPE_WEST});
   
       const summonerName = args.join(" ");
-      console.log(summonerName);
+      console.log(`Request made in ${guild.message.name} for ${command} about ${summonerName}`)
   
       if(args.length < 1){
         message.channel.send("You must provide a valid Summoner name");
@@ -193,10 +191,8 @@ client.on("message", async message => {
           message.channel.send(`${summonerName} does not exist`);
         }else{
           kayn.League.Entries.by.summonerID(summoner.id).callback(function(err, sRank) {
-            console.log(sRank);
               let soloq = sRank.filter(sRank => sRank.queueType === "RANKED_SOLO_5x5");
               let flexq = sRank.filter(sRank => sRank.queueType === "RANKED_FLEX_SR");
-              console.log(soloq.length, flexq.length);
               if (soloq.length < 1 && flexq.length > 0){
   
                 let flexRank = flexq[0].tier;
