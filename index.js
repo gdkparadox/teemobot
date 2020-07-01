@@ -49,7 +49,7 @@ client.on("message", async message => {
     const kayn = Kayn(process.env.API_KEY)({region: REGIONS.NORTH_AMERICA});
 
     const summonerName = args.join(" ");
-    console.log(`Request made in ${guild.message.name} for ${command} about ${summonerName}`)
+    console.log(`Request made in ${message.guild.name} for ${command} about ${summonerName}`)
 
     if(args.length < 1){
       message.channel.send("You must provide a valid Summoner name");
