@@ -298,7 +298,8 @@ client.on("message", async message => {
                 .setThumbnail(imagePath)
                 .setColor(0xeb7e46)
                 .addField('Solo/Duo', `**${rank} ${division} | ${points} LP**\n**Win Rate:** ${winRate}%`, true)
-                .addField('Flex', `**${flexRank} ${flexDivision} | ${flexPoints} LP**\n**Win Rate:** ${flexWinRate}%`, true);
+                .addField('Flex', `**${flexRank} ${flexDivision} | ${flexPoints} LP**\n**Win Rate:** ${flexWinRate}%`, true)
+                .addField('Most Played', ``);
     
                 return message.channel.send({ embed });
   
