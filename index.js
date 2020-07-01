@@ -69,8 +69,9 @@ client.on("message", async message => {
               let flexPoints = flexq[0].leaguePoints;
               let flexWins = flexq[0].wins;
               let flexLosses = flexq[0].losses;
-              var flexPWinRate = flexWins/flexLosses;
-              var flexWinRate = flexPWinRate.toFixed(2);
+              let flexTotal = flexWins+flexLosses;
+              var flexPWinRate = (flexWins/flexTotal)*100;
+              var flexWinRate = Math.floor(flexPWinRate);
 
               // Rank Processing
               if (flexRank == "IRON") flexRank = "Iron", imagePath = "https://i.imgur.com/o1Zueal.png";
@@ -100,8 +101,9 @@ client.on("message", async message => {
               let points = soloq[0].leaguePoints;
               let wins = soloq[0].wins;
               let losses = soloq[0].losses;
-              var pWinRate = wins/losses;
-              var winRate = pWinRate.toFixed(2);
+              let total = wins+losses;
+              var pWinRate = (wins/total)*100;
+              var winRate = Math.floor(pWinRate);
 
               // Rank Processing
               if (rank == "IRON") rank = "Iron", imagePath = "https://i.imgur.com/o1Zueal.png";
@@ -131,15 +133,17 @@ client.on("message", async message => {
               let points = soloq[0].leaguePoints;
               let wins = soloq[0].wins;
               let losses = soloq[0].losses;
-              var pWinRate = wins/losses;
-              var winRate = pWinRate.toFixed(2);
+              let total = wins+losses;
+              var pWinRate = (wins/total)*100;
+              var winRate = Math.floor(pWinRate);
               let flexRank = flexq[0].tier;
               let flexDivision = flexq[0].rank;
               let flexPoints = flexq[0].leaguePoints;
               let flexWins = flexq[0].wins;
               let flexLosses = flexq[0].losses;
-              var flexPWinRate = flexWins/flexLosses;
-              var flexWinRate = flexPWinRate.toFixed(2);
+              let flexTotal = flexWins+flexLosses;
+              var flexPWinRate = (flexWins/flexTotal)*100;
+              var flexWinRate = Math.floor(flexPWinRate);
   
               // Rank Processing
               if (rank == "IRON") rank = "Iron", imagePath = "https://i.imgur.com/o1Zueal.png";
