@@ -340,7 +340,7 @@ client.on("message", async message => {
         const embed = new Discord.MessageEmbed()
         .setTitle('Teemo Bot - Statistics')
         .setFooter(`©2020 ${config.author}`)
-        .setThumbnail("https://i.imgur.com/iYGaXw3.jpg")
+        .setThumbnail("https://i.imgur.com/FQXPR3D.png")
         .setColor(0xeb7e46)
         .addField('❯ Uptime', `${days}d ${hours}h ${minutes}m ${seconds}s`)
         .addField('❯ Memory Usage', `${memoryUsage}MB`)
