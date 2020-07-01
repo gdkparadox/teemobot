@@ -7,7 +7,7 @@ const config = require("./config.json");
 
 // Kayn Lib
 const { Kayn, REGIONS } = require('kayn');
-const kayn = Kayn(config.apikey)({region: REGIONS.NORTH_AMERICA});
+const kayn = Kayn(process.env.API_KEY)({region: REGIONS.NORTH_AMERICA});
 
 client.on("ready", () => {
 
