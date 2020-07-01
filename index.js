@@ -63,7 +63,7 @@ client.on("message", async message => {
             let soloq = sRank.filter(sRank => sRank.queueType === "RANKED_SOLO_5x5");
             let flexq = sRank.filter(sRank => sRank.queueType === "RANKED_FLEX_SR");
             console.log(soloq.length, flexq.length);
-            if (soloq.length < 1 && flexq.length > 1){
+            if (soloq.length < 1 && flexq.length > 0){
 
               let flexRank = flexq[0].tier;
               let flexDivision = flexq[0].rank;
@@ -94,7 +94,7 @@ client.on("message", async message => {
 
               return message.channel.send({ embed });
 
-            } else if (soloq.length > 1 && flexq.length < 1){
+            } else if (soloq.length > 0 && flexq.length < 1){
 
               let rank = soloq[0].tier;
               let division = soloq[0].rank;
@@ -125,7 +125,7 @@ client.on("message", async message => {
 
               return message.channel.send({ embed });
 
-            } else if(soloq.length > 1 && flexq.length > 1){
+            } else if(soloq.length > 0 && flexq.length > 0){
 
               let rank = soloq[0].tier;
               let division = soloq[0].rank;
