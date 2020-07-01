@@ -158,6 +158,8 @@ client.on("message", async message => {
   
               // Embed
   
+              console.log(rank, division, points, imagePath, summonerName, winRate, flexRank, flexDivision, flexPoints, flexWinRate);
+
               const embed = new Discord.MessageEmbed()
               .setTitle(`${summonerName}'s Stats`)
               .setThumbnail(imagePath)
