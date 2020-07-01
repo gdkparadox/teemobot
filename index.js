@@ -248,8 +248,8 @@ client.on("message", async message => {
   
                 // Most Played Champion
 
-                const summonerObject = kayn.Summoner.by.name(summonerName);
-                const accountID = (await summonerObject).accountId;
+                let summonerObject = kayn.Summoner.by.name(summonerName);
+                let accountID = (await summonerObject).accountId;
                 kayn.Matchlist.by.accountID(accountID)
                   .region(REGIONS.EUROPE_WEST)
                   .query({
@@ -314,8 +314,8 @@ client.on("message", async message => {
   
                 // Most Played Champion
 
-                const summonerObject = kayn.Summoner.by.name(summonerName);
-                const accountID = (await summonerObject).accountId;
+                let summonerObject = kayn.Summoner.by.name(summonerName);
+                let accountID = (await summonerObject).accountId;
                 kayn.Matchlist.by.accountID(accountID)
                   .region(REGIONS.EUROPE_WEST)
                   .query({
@@ -388,8 +388,8 @@ client.on("message", async message => {
   
                 // Most Played Champion
 
-                const summonerObject = kayn.Summoner.by.name(summonerName);
-                const accountID = (await summonerObject).accountId;
+                let summonerObject = kayn.Summoner.by.name(summonerName);
+                let accountID = (await summonerObject).accountId;
                 kayn.Matchlist.by.accountID(accountID)
                   .region(REGIONS.EUROPE_WEST)
                   .query({
