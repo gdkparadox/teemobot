@@ -50,6 +50,10 @@ client.on("message", async message => {
     const summonerName = args.join(" ");
     console.log(summonerName);
 
+    if(args.length < 1){
+      message.channel.send("You must provide a valid Summoner name");
+    }else{
+
     kayn.Summoner.by.name(summonerName).callback(function(err, summoner) {
       if (!summoner){
         message.channel.send(`${summonerName} does not exist`);
@@ -167,6 +171,7 @@ client.on("message", async message => {
         })
       }
     })
+    }
         
     }
 
