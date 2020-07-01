@@ -58,45 +58,111 @@ client.on("message", async message => {
           console.log(sRank);
             let soloq = sRank.filter(sRank => sRank.queueType === "RANKED_SOLO_5x5");
             let flexq = sRank.filter(sRank => sRank.queueType === "RANKED_FLEX_SR");
-            if (soloq.length < 1 && flexq.length < 1){
-              message.channel.send(`Summoner ${summonerName} is currently unranked`);
+            if (soloq.length < 1 && flexq.length > 1){
+
+              let flexRank = flexq[0].tier;
+              let flexDivision = flexq[0].rank;
+              let flexPoints = flexq[0].leaguePoints;
+              let flexWins = flexq[0].wins;
+              let flexLosses = flexq[0].losses;
+              var flexPWinRate = flexWins/flexLosses;
+              var flexWinRate = flexPWinRate.toFixed(2);
+
+              // Rank Processing
+              if (flexRank == "IRON") flexRank = "Iron", imagePath = "https://i.imgur.com/o1Zueal.png";
+              if (flexRank == "BRONZE") flexRank = "Bronze", imagePath = "https://i.imgur.com/rs4SZvt.png";
+              if (flexRank == "SILVER") flexRank = "Silver", imagePath = "https://i.imgur.com/RiLIAaW.png";
+              if (flexRank == "GOLD") flexRank = "Gold", imagePath = "https://i.imgur.com/TPb2MTW.png";
+              if (flexRank == "PLATINUM") flexRank = "Platinum", imagePath = "https://i.imgur.com/radVwv6.png";
+              if (flexRank == "DIAMOND") flexRank = "Diamond", imagePath = "https://i.imgur.com/4tuGatb.png";
+              if (flexRank == "MASTER") flexRank = "Master", imagePath = "https://i.imgur.com/Kl0C1nw.png";
+              if (flexRank == "GRANDMASTER") flexRank = "Grandmaster", imagePath = "https://i.imgur.com/dWwxQ2c.png";
+              if (flexRank == "CHALLENGER") flexRank = "Challenger", imagePath = "https://i.imgur.com/C42dBE6.png";
+
+              // Embed
+
+              const embed = new Discord.MessageEmbed()
+              .setTitle(`${summonerName}'s Stats`)
+              .setThumbnail(imagePath)
+              .setColor(0xeb7e46)
+              .addField('Flex', `**${flexRank} ${flexDivision} | ${flexPoints} LP**\n**Win Rate:** ${flexWinRate}%`, true);
+
+              return message.channel.send({ embed });
+
+            } else if (soloq.length > 1 && flexq.length < 1){
+
+              let rank = soloq[0].tier;
+              let division = soloq[0].rank;
+              let points = soloq[0].leaguePoints;
+              let wins = soloq[0].wins;
+              let losses = soloq[0].losses;
+              var pWinRate = wins/losses;
+              var winRate = pWinRate.toFixed(2);
+
+              // Rank Processing
+              if (rank == "IRON") rank = "Iron", imagePath = "https://i.imgur.com/o1Zueal.png";
+              if (rank == "BRONZE") rank = "Bronze", imagePath = "https://i.imgur.com/rs4SZvt.png";
+              if (rank == "SILVER") rank = "Silver", imagePath = "https://i.imgur.com/RiLIAaW.png";
+              if (rank == "GOLD") rank = "Gold", imagePath = "https://i.imgur.com/TPb2MTW.png";
+              if (rank == "PLATINUM") rank = "Platinum", imagePath = "https://i.imgur.com/radVwv6.png";
+              if (rank == "DIAMOND") rank = "Diamond", imagePath = "https://i.imgur.com/4tuGatb.png";
+              if (rank == "MASTER") rank = "Master", imagePath = "https://i.imgur.com/Kl0C1nw.png";
+              if (rank == "GRANDMASTER") rank = "Grandmaster", imagePath = "https://i.imgur.com/dWwxQ2c.png";
+              if (rank == "CHALLENGER") rank = "Challenger", imagePath = "https://i.imgur.com/C42dBE6.png";
+
+              // Embed
+
+              const embed = new Discord.MessageEmbed()
+              .setTitle(`${summonerName}'s Stats`)
+              .setThumbnail(imagePath)
+              .setColor(0xeb7e46)
+              .addField('Solo/Duo', `**${rank} ${division} | ${points} LP**\n**Win Rate:** ${winRate}%`, true);
+
+              return message.channel.send({ embed });
+
+            } else if(soloq.length > 1 && flexq.length > 1){
+
+              let rank = soloq[0].tier;
+              let division = soloq[0].rank;
+              let points = soloq[0].leaguePoints;
+              let wins = soloq[0].wins;
+              let losses = soloq[0].losses;
+              var pWinRate = wins/losses;
+              var winRate = pWinRate.toFixed(2);
+              let flexRank = flexq[0].tier;
+              let flexDivision = flexq[0].rank;
+              let flexPoints = flexq[0].leaguePoints;
+              let flexWins = flexq[0].wins;
+              let flexLosses = flexq[0].losses;
+              var flexPWinRate = flexWins/flexLosses;
+              var flexWinRate = flexPWinRate.toFixed(2);
+  
+              // Rank Processing
+              if (rank == "IRON") rank = "Iron", imagePath = "https://i.imgur.com/o1Zueal.png";
+              if (rank == "BRONZE") rank = "Bronze", imagePath = "https://i.imgur.com/rs4SZvt.png";
+              if (rank == "SILVER") rank = "Silver", imagePath = "https://i.imgur.com/RiLIAaW.png";
+              if (rank == "GOLD") rank = "Gold", imagePath = "https://i.imgur.com/TPb2MTW.png";
+              if (rank == "PLATINUM") rank = "Platinum", imagePath = "https://i.imgur.com/radVwv6.png";
+              if (rank == "DIAMOND") rank = "Diamond", imagePath = "https://i.imgur.com/4tuGatb.png";
+              if (rank == "MASTER") rank = "Master", imagePath = "https://i.imgur.com/Kl0C1nw.png";
+              if (rank == "GRANDMASTER") rank = "Grandmaster", imagePath = "https://i.imgur.com/dWwxQ2c.png";
+              if (rank == "CHALLENGER") rank = "Challenger", imagePath = "https://i.imgur.com/C42dBE6.png";
+  
+              // Embed
+  
+              const embed = new Discord.MessageEmbed()
+              .setTitle(`${summonerName}'s Stats`)
+              .setThumbnail(imagePath)
+              .setColor(0xeb7e46)
+              .addField('Solo/Duo', `**${rank} ${division} | ${points} LP**\n**Win Rate:** ${winRate}%`, true)
+              .addField('Flex', `**${flexRank} ${flexDivision} | ${flexPoints} LP**\n**Win Rate:** ${flexWinRate}%`, true);
+  
+              return message.channel.send({ embed });
+
             }else{
-            let rank = soloq[0].tier;
-            let division = soloq[0].rank;
-            let points = soloq[0].leaguePoints;
-            let wins = soloq[0].wins;
-            let losses = soloq[0].losses;
-            var pWinRate = wins/losses;
-            var winRate = pWinRate.toFixed(2);
-            let flexRank = flexq[0].tier;
-            let flexDivision = flexq[0].rank;
-            let flexPoints = flexq[0].leaguePoints;
-            let flexWins = flexq[0].wins;
-            let flexLosses = flexq[0].losses;
-            var flexPWinRate = flexWins/flexLosses;
-            var flexWinRate = flexPWinRate.toFixed(2);
 
-            // Rank Processing
-            if (rank == "IRON") rank = "Iron", imagePath = "https://i.imgur.com/o1Zueal.png";
-            if (rank == "BRONZE") rank = "Bronze", imagePath = "https://i.imgur.com/rs4SZvt.png";
-            if (rank == "SILVER") rank = "Silver", imagePath = "https://i.imgur.com/RiLIAaW.png";
-            if (rank == "GOLD") rank = "Gold", imagePath = "https://i.imgur.com/TPb2MTW.png";
-            if (rank == "PLATINUM") rank = "Platinum", imagePath = "https://i.imgur.com/radVwv6.png";
-            if (rank == "DIAMOND") rank = "Diamond", imagePath = "https://i.imgur.com/4tuGatb.png";
-            if (rank == "MASTER") rank = "Master", imagePath = "https://i.imgur.com/Kl0C1nw.png";
-            if (rank == "GRANDMASTER") rank = "Grandmaster", imagePath = "https://i.imgur.com/dWwxQ2c.png";
-            if (rank == "CHALLENGER") rank = "Challenger", imagePath = "https://i.imgur.com/C42dBE6.png";
-
-            // Embed
-
-            const embed = new Discord.MessageEmbed()
-            .setTitle(`${summonerName}'s Stats`)
-            .setThumbnail(imagePath)
-            .setColor(0xeb7e46)
-            .addField('Solo/Duo', `**${rank} ${division} | ${points} LP**\n**Win Rate:** ${winRate}%`, true)
-            .addField('Flex', `**${flexRank} ${flexDivision} | ${flexPoints} LP**\n**Win Rate:** ${flexWinRate}%`, true);
-
-            return message.channel.send({ embed });
+              message.channel.send(`Summoner ${summonerName} is currently unranked`);
+            
             }
         })
       }
